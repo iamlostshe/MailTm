@@ -1,8 +1,10 @@
 # mail-tm API wrapper
 
-Mail-tm is a free temporary mail service, This library is useful for automation tasks such as making accounts that needs email verification.
+> Fork of [MainSilent/MailTm](https://github.com/MainSilent/MailTm).
 
 > There are plans to write a custom server for deploying personal temporary email on your server.
+
+Mail-tm is a free temporary mail service, This library is useful for automation tasks such as making accounts that needs email verification.
 
 ## Installation
 
