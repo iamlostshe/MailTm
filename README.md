@@ -22,18 +22,20 @@ from mailtm import Email
 
 async def main() -> None:
     """Start msg cycle."""
+
     def listener(message: dict) -> None:
         print("\nSubject: " + message["subject"])
         print("Content: " + message["text"] if message["text"] else message["html"])
 
-    # Get Domains
+    # Get base url and domains
     test = Email()
     await test.init()
-    print("\nDomain: " + test.domain)
+    print("\nBase url:", test.base_url)
+    print("Domain:", test.domain)
 
     # Make new email address
     await test.register()
-    print("\nEmail Adress: " + str(test.address))
+    print("\nEmail Adress:", test.address)
 
     # Start listening
     await test.start(listener)
@@ -42,7 +44,6 @@ async def main() -> None:
 
 if __name__ == "__main__":
     asyncio.run(main())
-
 ```
 
 # Documentation

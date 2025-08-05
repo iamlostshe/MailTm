@@ -1,6 +1,6 @@
 """Some constant values."""
 
-BASE_URL = "https://api.mail.tm/"
+BASE_URLS = ["https://api.mail.tm/", "https://api.mail.gw/"]
 
 USERNAME_ALPHABET = "abcdefghijklmnopqrstuvwxyz0123456789"
 PASSWORD_ALPHABET = (

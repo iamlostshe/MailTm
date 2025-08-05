@@ -4,7 +4,7 @@ import random
 
 from aiohttp import ClientSession
 
-from .consts import BASE_URL, PASSWORD_ALPHABET, USERNAME_ALPHABET
+from .consts import BASE_URLS, PASSWORD_ALPHABET, USERNAME_ALPHABET
 from .message import Listen
 
 
@@ -27,21 +27,23 @@ def password_gen(
 class Email(Listen):
     """The class module for interacting with EMail."""
 
-    async def init(self) -> None:
+    async def init(self, base_url: str | None = random.choice(BASE_URLS)) -> None:  # noqa: S311
         """Init temporary Email class."""
-        self.session = ClientSession(headers={"Content-Type": "application/json"})
+        self.base_url = base_url
+        self.session = ClientSession(
+            base_url=self.base_url,
+            headers={"Content-Type": "application/json"},
+        )
         await self.domains()
 
     async def domains(self) -> None:
         """Init Email domains."""
-        url = f"{BASE_URL}domains"
+        url = "domains"
 
         async with self.session.get(url) as response:
-            data = await response.json()
+            data = (await response.json())["hydra:member"]
 
-        for domain in data["hydra:member"]:
-            if domain["isActive"]:
-                self.domain = domain["domain"]
+        self.domain = random.choice([d for d in data if d["isActive"]])["domain"]  # noqa: S311
 
     async def register(
         self,
@@ -55,7 +57,7 @@ class Email(Listen):
 
         self.address = f"{username}@{self.domain}"
 
-        url = f"{BASE_URL}accounts"
+        url = "accounts"
         payload = {
             "address": self.address,
             "password": password,
@@ -66,7 +68,7 @@ class Email(Listen):
 
     async def get_token(self, password: str) -> None:
         """Get token."""
-        url = f"{BASE_URL}token"
+        url = "token"
         payload = {
             "address": self.address,
             "password": password,

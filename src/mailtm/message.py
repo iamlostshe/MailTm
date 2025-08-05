@@ -2,8 +2,6 @@
 
 import asyncio
 
-from .consts import BASE_URL
-
 
 class Listen:
     """Listener class."""
@@ -14,7 +12,7 @@ class Listen:
 
     async def message_list(self) -> list:
         """Get a list of messages."""
-        url = f"{BASE_URL}messages"
+        url = "messages"
 
         async with self.session.get(url) as response:
             data = await response.json()
@@ -27,7 +25,7 @@ class Listen:
 
     async def message(self, idx: str) -> dict:
         """Get the text of the message."""
-        url = f"{BASE_URL}messages/{idx}"
+        url = f"messages/{idx}"
         async with self.session.get(url) as response:
             return await response.json()
 
