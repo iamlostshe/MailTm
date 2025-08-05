@@ -1,46 +1,56 @@
-# MailTM API Wrapper
+# mail-tm API wrapper
 
-[![Downloads](https://pepy.tech/badge/mailtm)](https://pepy.tech/project/mailtm)
+Mail-tm is a free temporary mail service, This library is useful for automation tasks such as making accounts that needs email verification.
 
-[![Downloads](https://pepy.tech/badge/mailtm/month)](https://pepy.tech/project/mailtm)
-[![Downloads](https://pepy.tech/badge/mailtm/week)](https://pepy.tech/project/mailtm)
-
-MailTm is a free temporary mail service, This library is useful for automation tasks such as making accounts that needs email verification.
+> There are plans to write a custom server for deploying personal temporary email on your server.
 
 ## Installation
 
-```
+```bash
 pip install git+https://github.com/iamlostshe/mail-tm
 ```
 
 ## Example
 
 ```python
+import asyncio
+
 from mailtm import Email
 
-def listener(message):
-    print("\nSubject: " + message['subject'])
-    print("Content: " + message['text'] if message['text'] else message['html'])
 
-# Get Domains
-test = Email()
-print("\nDomain: " + test.domain)
+async def main() -> None:
+    """Start msg cycle."""
+    def listener(message: dict) -> None:
+        print("\nSubject: " + message["subject"])
+        print("Content: " + message["text"] if message["text"] else message["html"])
 
-# Make new email address
-test.register()
-print("\nEmail Adress: " + str(test.address))
+    # Get Domains
+    test = Email()
+    await test.init()
+    print("\nDomain: " + test.domain)
 
-# Start listening
-test.start(listener)
-print("\nWaiting for new emails...")
+    # Make new email address
+    await test.register()
+    print("\nEmail Adress: " + str(test.address))
+
+    # Start listening
+    await test.start(listener)
+    print("\nWaiting for new emails...")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
+
 ```
 
 # Documentation
 
-API: https://mail.tm
+API: [api.mail.tm](https://api.mail.tm/)
 
-`register(username=None, password=None, domain=None)` | Make an email account with random credentials, You can also pass a username, password and domain to use the same account.
+- `register(username: str | None = username_gen(), password: str | None = password_gen(), domain: str | None = None)`:
 
-`start(listener, interval=3)` | Start listening for new emails, Interval means how many seconds takes to sync, And you also need to pass a function for `listener`, This function gets called when new email arrive.
+Make an email account with random credentials, You can also pass a username, password and domain to use the same account.
 
-`stop()` | Stop listening for new emails.
+- `start(listener: any, interval: int = 3) -> None`:
+
+Start listening for new emails, Interval means how many seconds takes to sync, And you also need to pass a function for `listener`, This function gets called when new email arrive.

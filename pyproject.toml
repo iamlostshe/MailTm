@@ -9,7 +9,7 @@ authors = [
   {name="iamlostshe", email="vanamelcikov7275@gmail.com"}
 ]
 dependencies = [
-    "requests>=2.32.4",
+    "aiohttp>=3.12.14",
 ]
 keywords=['mail', 'email', 'temporary mail', 'temporary email', 'mailtm']
 classifiers=[
