@@ -22,3 +22,6 @@ classifiers=[
 Homepage = "https://github.com/iamlostshe/mail-tm"
 Repository = "https://github.com/iamlostshe/mail-tm.git"
 "Bug Tracker" = "https://github.com/iamlostshe/mail-tm/issues"
+
+[tool.ruff.lint]
+select = ["ALL"]
